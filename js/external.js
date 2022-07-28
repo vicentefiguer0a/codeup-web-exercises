@@ -42,7 +42,9 @@ let enrolled = !isFull && !isConflict; // If conditions check out, student is ab
 
 // Fourth bulletin from question 3.
 
-let premiumMember;
+let premiumMember = confirm("Are you a premium member?");
 let userPurchaseItems = Number(prompt("How many items did you buy?"));
 let offerExpired = true;
-let prodOfferApply = (userPurchaseItems > 2 && !offerExpired) || premiumMember;
+let prodOfferApply = (userPurchaseItems > 2 && !offerExpired) || premiumMember == true;
+
+
