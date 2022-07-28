@@ -4,3 +4,6 @@ The second 'true' is a string, which is just a combination of letters/symbols/nu
 
 When trying to find the index of "c" in the string "Hello Codeup" using the ".indexOf()" method, I get an output of "-1". That is because if the given character or 
 substring is not found, the indexOf() method will return a negative number.
+
+"use strict" is added at the very top of JavaScript code to apply the stricter rules which then will make scripts more reliable
+and easier to debug. Make sure to add to JavaScript code FROM NOW ON.
