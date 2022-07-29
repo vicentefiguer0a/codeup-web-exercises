@@ -10,7 +10,7 @@
  */
 
 function sayHello(name) {
-    console.log("Hello " + name + "!");
+    return ("Hello " + name + "!");
 }
 
 /**
@@ -31,7 +31,7 @@ let helloMessage = sayHello("Vicente");
  */
 
 let myName = "Vicente";
-sayHello(myName);
+console.log(sayHello(myName)); // Outputs "Hello Vicente!" in the console.
 
 // Don't modify the following line, it generates a random number between 1 and 3
 // and stores it in a variable named random
@@ -82,11 +82,11 @@ function calculateTip(percent, total) {
  * then display the dollar amount they should tip
  */
 
-let percent = prompt("Please enter percentage of tip you wish to leave: ");
-let total = prompt("Please enter your bill total: ");
-let tip = calculateTip(percent, total);
+// let percent = prompt("Please enter percentage of tip you wish to leave: ");
+// let total = prompt("Please enter your bill total: ");
+// let tip = calculateTip(percent, total);
 
-alert("Your tip amount is $" + tip + ".");
+// alert("Your tip amount is $" + tip + ".");
 
 /**
  * TODO:
