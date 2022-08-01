@@ -109,4 +109,4 @@ function applyDiscount(originalPrice, discountPercent) {
 }
 
 let x = applyDiscount(45.99, 0.12);
-console.log(x);
+console.log(x); // Logs discounted total.
