@@ -76,17 +76,17 @@ function calculateTip(percent, total) {
      return percent * total;
 }
 /**
- *TODO:
+ * TODO:
  * Use prompt and alert in combination with your calculateTip function to
  * prompt the user for the bill total and a percentage they would like to tip,
  * then display the dollar amount they should tip
  */
 
-// let percent = prompt("Please enter percentage of tip you wish to leave: ");
-// let total = prompt("Please enter your bill total: ");
-// let tip = calculateTip(percent, total);
+let percent = prompt("Please enter percentage of tip you wish to leave: ");
+let total = prompt("Please enter your bill total: ");
+let tip = calculateTip(percent, total);
 
-// alert("Your tip amount is $" + tip + ".");
+alert("Your tip amount is $" + tip + ".");
 
 /**
  * TODO:
