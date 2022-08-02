@@ -66,13 +66,13 @@ let input = prompt("What is your favorite color?");
 
 switch (input) {
     case "blue":
-        console.log(input + " is the color of water! (For the most part)");
+        console.log(input + " is the color of water. (For the most part)");
         break;
     case "red":
-        console.log(input + " is one of my favorite colors!");
+        console.log(input + " is one of my favorite colors.");
         break;
     case "green":
-        console.log(input + " is the color of Codeup!");
+        console.log(input + " is the color of Codeup.");
         break;
     default:
         console.log("I have nothing good or bad to say about the color " + input + ".");
@@ -86,7 +86,7 @@ switch (input) {
  * function to show it to the user.
  */
 
-let userColor = analyzeColor(prompt("Please enter a color of your choice: "));
+let userColor = analyzeColor(prompt("Please enter a color of your choice: ")).toLowerCase();
 alert(userColor);
 
 /* ########################################################################## */
@@ -168,28 +168,28 @@ alert("Your price after the discount is " + calculateTotal(luckyNumber, totalBil
 
 function isEven(x) { // Function checks if input is even or odd.
     if (x % 2 == 0) {
-        alert(x + " is even.");
+        alert(`${x} is even.`);
     } else {
-        alert(x + " is odd.");
+        alert(`${x} is odd.`);
     }
 }
 
 function numPlus100(x) { // Function returns input + 100.
     const sum = x + 100;
-    alert(x + " plus 100 is " + sum + ".");
+    alert(`${x} + 100 is ${sum}`);
 }
 
 function isNegOrPos(x) { // Function checks if input is positive or negative.
     if (x < 0) {
-        alert(x + " is negative.");
+        alert(`${x} is negative.`);
     } else {
-        alert(x + " is positive.");
+        alert(`${x} is positive.`);
     }
 }
 
 
 let userNum = confirm("Would you like to enter a number?");
-if (userNum == true) {
+if (userNum) {
     let num = Number(prompt("Thank you for participating!\nPlease enter a number:"));
     if (num) {
         isEven(num);
