@@ -9,7 +9,7 @@
 
 let userOddNum = Number(prompt("Please enter an odd number between 1 and 50:"));
 
-while (userOddNum % 2 === 0) {
+while (userOddNum % 2 === 0 || userOddNum >= 50 || userOddNum <= 1) {
     userOddNum = Number(prompt("Invalid input. Please enter an odd number between 1 and 50:"));
     if (userOddNum % 2 !== 0) {
         break;
