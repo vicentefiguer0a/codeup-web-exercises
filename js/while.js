@@ -40,19 +40,17 @@ while (counter <= 65536) {
  */
 
 let conesToSell = Math.floor(Math.random() * 50) + 50; // Generates random number between 50 and 100.
-let conesBeingBought = Math.floor(Math.random() * 5) + 1;
 // console.log(conesToSell); // Testing conesToSell variable.
-// console.log(conesBeingBought); // Testing conesBeingBought variable.
 
 do {
-    conesToSell = conesToSell - conesBeingBought
-    if(conesToSell < conesBeingBought) {
-        console.log(`Cannot sell you ${conesBeingBought} cones I only have ${conesToSell}`);
-    } else {
-        console.log(`${conesBeingBought} cones sold ...`);
-        console.log("\n");
+    var conesBeingBought = Math.floor(Math.random() * 5) + 1;
+    if (conesBeingBought <= conesToSell) {
+        console.log(`${conesToSell} cones sold...`);
+        conesToSell -= conesBeingBought;
+    } else if (conesBeingBought > conesToSell) {
+        console.log(`Cannot sell you ${conesBeingBought} cones I only have ${conesToSell}...`);
     }
-    if (conesToSell === 0) { // Logs message if/when conesToSell reaches 0.
-        console.log(`Yay! I sold all of them!`)
-    }
-} while (conesToSell > conesBeingBought);
+
+} while (conesToSell !== 0);
+
+console.log(`Yay! I sold them all`);
