@@ -25,10 +25,11 @@
      * string, and <li> tags around each planet.
      */
 
-    let newPlanetsString = "Mercury<br>Venus<br>Earth<br>Mars<br>Jupiter<br>Saturn<br>Uranus<br>Neptune";
-    console.log(newPlanetsString);
+    planetsString = planetsArray.join("<br>");
 
-    let planetsList = "<ul><li>Mercury</li><li>Venus</li><li>Earth</li><li>Mars</li><li>Jupiter</li><li>Saturn</li><li>Uranus</li><li>Neptune</li></ul>";
-    console.log(planetsList);
+    planetsArray.push("</ul>");
+    planetsArray.unshift("<ul>");
+    let planetList = planetsArray.join("<li>");
+
 
 })();
