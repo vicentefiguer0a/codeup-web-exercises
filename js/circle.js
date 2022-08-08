@@ -4,11 +4,10 @@
     // create a circle object
     var circle = {
         radius: 5,
-        pi: 3.14,
         getArea: function () {
             // TODO: complete this method
             // hint: area = pi * radius^2
-            let area = this.pi * Math.pow(this.radius, 2);
+            let area = Math.PI * Math.pow(this.radius, 2);
             return area; // TODO: return the proper value
         },
 
