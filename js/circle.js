@@ -3,7 +3,7 @@
 
     // create a circle object
     var circle = {
-        radius: 5,
+        radius: 3,
         getArea: function () {
             // TODO: complete this method
             // hint: area = pi * radius^2
@@ -34,9 +34,8 @@
 
     console.log("=======================================================");
     // TODO: Change the radius of the circle to 5.
-    // Changed it manually in the radius property. Otherwise,
-    // I would prompt user to enter radius of choice and store that value
-    // in the radius property
+
+    circle.radius = 5;
 
     // log info about the circle
     console.log("Raw circle information");
