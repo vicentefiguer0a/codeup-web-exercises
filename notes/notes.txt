@@ -7,3 +7,6 @@ substring is not found, the indexOf() method will return a negative number.
 
 "use strict" is added at the very top of JavaScript code to apply the stricter rules which then will make scripts more reliable
 and easier to debug. Make sure to add to JavaScript code FROM NOW ON.
+
+What do you notice when changing the form's request method from GET to POST?
+ - If you use the "GET" method, it will display the information in the URL.
