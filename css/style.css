@@ -1,3 +1,55 @@
 .fancy-header {
-    color: purple;
+    color: deepskyblue;
+}
+
+.grid {
+    padding: 5px 40px;
+}
+
+html {
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+body {
+    background-image: url("../images/yellow-background.jpeg");
+    background-repeat: repeat;
+}
+
+header {
+    color: deepskyblue;
+    text-decoration: underline;
+    text-align: center;
+}
+
+ul {
+    list-style: square;
+}
+
+td {
+    padding: 10px;
+    font-size: larger;
+}
+
+td.price {
+    font-weight: bolder;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:link {
+    color: black;
+}
+
+a:visited {
+    color: gray;
+}
+
+a:hover {
+    color: deepskyblue;
+}
+
+a:active {
+    color: gold;
 }
