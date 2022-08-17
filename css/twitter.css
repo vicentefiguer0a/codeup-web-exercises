@@ -30,8 +30,8 @@ a {
     color: var(--link-color);
 }
 
-#container {
-    margin: 2em;
+.container {
+    margin-top: 2em;
 }
 
 .top-nav {
@@ -65,7 +65,6 @@ a {
 .profile {
     background: var(--light-bg);
     height: 80px;
-    margin: 20px 0px;
 }
 
 .profile-form {
@@ -102,7 +101,7 @@ a {
 
 .profile-image {
     position: absolute;
-    top: 260px;
+    top: 240px;
 }
 
 .profile-details {
