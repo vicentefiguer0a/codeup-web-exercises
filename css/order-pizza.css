@@ -1,0 +1,40 @@
+a {
+    text-decoration: none;
+    color: black;
+}
+.navbar {
+    justify-content: flex-start;
+}
+
+.navbar-brand {
+    margin-left: 10px;
+}
+
+.navbar-left-container {
+    margin-right: 5px;
+}
+
+.navbar-left-container>a {
+    margin-right: 5px;
+}
+
+.d-flex>.btn {
+    border: 1px solid #0D6EFD;
+    width: 350px;
+    font-size: small;
+}
+
+.form-control {
+    padding: 3px 12px;
+    font-size: small;
+}
+
+.d-flex {
+    height: 30px;
+    width: 30%;
+    justify-content: flex-start;
+}
+
+.sign-up {
+    margin-left: 620px;
+}
