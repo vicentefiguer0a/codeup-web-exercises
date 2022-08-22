@@ -38,3 +38,25 @@ a {
 .sign-up {
     margin-left: 620px;
 }
+
+.jumbotron {
+    background-image: url("../images/pizza.png");
+    height: 346px;
+    background-size: cover;
+}
+
+
+
+.build-pizza-tabs {
+    margin-top: 30px;
+}
+
+.badge {
+    border-radius: 50%;
+}
+
+#thin-crust-info, #hand-tossed-crust-info, #cheese-info, #sauce-info, #meats-info, #non-meats-info {
+    margin-top: 15px;
+    margin-left: 15px;
+    margin-bottom: 20px;
+}
