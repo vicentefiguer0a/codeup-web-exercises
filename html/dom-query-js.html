@@ -66,9 +66,11 @@
         var listItems = document.getElementsByTagName("li");
 
         // TODO: Set text color on every other list item to grey
-        listItems[0].style.color = "grey";
-        listItems[2].style.color = "grey";
-        listItems[4].style.color = "grey";
+        for (let i = 0; i < listItems.length; i++) {
+            if (i % 2 === 1) {
+                listItems[i].style.color = "gray";
+            }
+        }
 
         // TODO: Set text color of li with dbid = 1 to blue
         let dbId1 = document.getElementsByTagName("li")[0];
