@@ -27,7 +27,7 @@
 
 // jQUERY MOUSE EVENTS EXERCISE BELOW
 $("h1").click(function(e) {
-    $(this).css("background", "skyblue");
+    $(this).css("background-color", "skyblue");
 });
 
 $("p").dblclick(function(e) {
@@ -39,6 +39,6 @@ $("li").hover(
         $(this).css("background-color", "red");
     },
     function(e) {
-        $(this).css("background-color", "black"); // "value_function" can be set to "transparent" as well.
+        $(this).css("background-color", "black"); // "value_function" can be set to "transparent" or "none" for no background color on hover out.
     }
 );
