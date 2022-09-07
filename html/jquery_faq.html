@@ -6,13 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>jQuery | FAQ</title>
+    <style>
+        .invisible {
+            visibility: hidden;
+        }
+    </style>
 </head>
 
 <body>
 
 
 <!--------------------------------------------------NATIONAL PARKS FAQ-------------------------------------------------->
-
 
     <dl>
         <dt>Who is the director of the National Park Service?</dt>
@@ -86,7 +90,16 @@
         "use strict";
 
         // Adds class of "invisible" to all <dd> elements and gives them a css property of "visibility" with a value of "hidden".
-        $("dd").addClass("invisible").css("visibility", "hidden");
+        $("dd").addClass("invisible");
+
+        // Adds a single <a> element above FAQ list with proper attributes.
+        $("dl").before("<a href='#' id='link-to-toggle'>Toggle FAQ Answers</a>");
+
+        // Click function that toggles "invisible" class on <dd> elements when link is clicked.
+        $("#link-to-toggle").click(function(e){
+            console.log($("dd"));
+            $("dd").toggleClass("invisible");
+        });
 
     </script>
 </body>
