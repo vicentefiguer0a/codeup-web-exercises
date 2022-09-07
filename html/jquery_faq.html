@@ -15,7 +15,6 @@
 
 <body>
 
-
 <!--------------------------------------------------NATIONAL PARKS FAQ-------------------------------------------------->
 
     <dl>
@@ -84,7 +83,35 @@
         </dd>
     </dl>
 
+<!--------------------------------------------------NATIONAL PARK FACTS-------------------------------------------------->
+    <h3>Yellowstone National Park</h3>
+    <ul>
+        <li>Fact 1</li>
+        <li>Fact 2</li>
+        <li>Fact 3</li>
+        <li>Fact 4</li>
+    </ul>
+
+    <h3>Yosemite National Park</h3>
+    <ul>
+        <li>Fact 1</li>
+        <li>Fact 2</li>
+        <li>Fact 3</li>
+        <li>Fact 4</li>
+    </ul>
+
+    <h3>Grand Canyon National Park</h3>
+    <ul>
+        <li>Fact 1</li>
+        <li>Fact 2</li>
+        <li>Fact 3</li>
+        <li>Fact 4</li>
+    </ul>
+
+    <button type="button" id="yellow-btn">Yellow Me</button>
+
 <!--------------------------------------------------JS SCRIPT TAGS-------------------------------------------------->
+
     <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
     <script>
         "use strict";
@@ -93,10 +120,10 @@
         $("dd").addClass("invisible");
 
         // Adds a single <a> element above FAQ list with proper attributes.
-        $("dl").before("<a href='#' id='link-to-toggle'>Toggle FAQ Answers</a>");
+        $("dl").before("<button type='button' id='btn-to-toggle'>Toggle FAQ Answers</button>");
 
         // Click function that toggles "invisible" class on <dd> elements when link is clicked.
-        $("#link-to-toggle").click(function(e){
+        $("#btn-to-toggle").click(function(e) {
             console.log($("dd"));
             $("dd").toggleClass("invisible");
         });
@@ -104,6 +131,28 @@
         // Highlights <dt> element when clicked.
         $("dt").click(function(e) {
            $(this).css("background-color", "yellow");
+        });
+
+        //////////////////////// TRAVERSING EXERCISE //////////////////////////////////////
+
+        // Turns last <li> in each <ul> element yellow when button is clicked.
+        $("#yellow-btn").click(function(e) {
+            $("ul").each(function(index, element){
+               $(element).children().last().css("background-color", "yellow");
+            });
+        });
+
+        // When <h3> is clicked, turn ALL <li> underneath THAT header, bold.
+        $("h3").each(function(index, element) {
+            $(element).click(function(e) {
+                console.log("Test");
+                $(element).next().css("font-weight", "bold");
+            });
+        });
+
+        // When any <li> is clicked, the first <li> of the parent <ul> should have a font color of blue.
+        $("li").click(function(e) {
+           $(this).parent().children().first().css("color", "blue");
         });
 
     </script>
