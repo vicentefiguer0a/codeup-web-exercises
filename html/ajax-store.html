@@ -69,6 +69,8 @@
             for(let i = 0; i < data.length; i++) {
                 $("#insertProducts").append(`<tr><td>${data[i].title}</td><td>${data[i].quantity}</td><td>${data[i].price}</td><td>${data[i].categories}</td></tr>`);
             }
+        }).fail(function(jqXhr, status, error) {
+            alert(`${status.toUpperCase()}\nPlease try again.`);
         });
 
         // TODO: Add a "Refresh" button that will load inventory.json for you without having to refresh the entire page.
