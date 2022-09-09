@@ -57,10 +57,18 @@
     <script>
         "use strict";
 
+        // Function loads contents from "blog.json" onto HTML document.
         function createHTML(data) {
             let html = ``;
             for(let i = 0; i < data.length; i++) {
-                html += `<div class=\"card shadow p-3 mb-5 bg-body rounded\" style=\"width: 70%; margin-bottom: 3rem;\"><div class=\"card-body\"><h3 class=\"card-title\">${data[i].title}</h3><h6 class=\"card-subtitle mb-2 text-muted\">${data[i].date}</h6><p class=\"card-text\">${data[i].content}</p><h6 class=\"card-subtitle mb-2 text-muted\">Categories: ${data[i].categories}</h6></div></div>`
+                html += `<div class="card shadow p-3 mb-5 bg-body rounded" style="width: 70%; margin-bottom: 3rem;">
+                            <div class="card-body">
+                                <h3 class="card-title">${data[i].title}</h3>
+                                <h6 class="card-subtitle mb-2 text-muted">${data[i].date}</h6>
+                                <p class="card-text">${data[i].content}</p>
+                                <h6 class="card-subtitle mb-2 text-muted">Categories: ${data[i].categories}</h6>
+                            </div>
+                         </div>`
             }
             return html;
         }
@@ -69,16 +77,13 @@
         // Storing get request in "blogs" variable.
         let blogs = $.get("../data/blog.json");
 
-        // Using for loop to loop through json and displaying blog cards using template literals.
         blogs.done(function(data) {
-            console.log(data);
             let blog = createHTML(data);
-            for(let i = 0; i < data.length; i++) {
-                $("#posts").html(blog);
-            }
+            $("#posts").html(blog);
         }).fail(function(jqXhr, status, error) {
             alert(`${error.toUpperCase()}\n${status.toUpperCase()}\nThere was a unexpected problem.\nPlease refresh your page.`);
         });
+
     </script>
 </body>
 
