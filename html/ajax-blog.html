@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ajax Blog</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <style>
+        #posts {
+            display: flex;
+            flex-direction: column;
+            margin-left: 8rem;
+            margin-top: 13rem;
+        }
+    </style>
+</head>
+
+<body>
+    <!------------------------------------------NAVBAR------------------------------------------>
+    <nav class="navbar navbar-expand-lg bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="ajax-blog.html">
+                $dev_blogs
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-link" aria-current="page" href="#">Home</a>
+                    <a class="nav-link" href="ajax-blog.html">Blogs</a>
+                    <a class="nav-link" href="#">About</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!------------------------------------------BLOGS CONTENT------------------------------------------>
+        <div id="posts"></div>
+    <!------------------------------------------SCRIPT TAGS------------------------------------------>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+    <script>
+        "use strict";
+
+        // TODO: Use Ajax to load the contents of blog.json and add the data from it to your #posts div.
+        let blogs = $.get("../data/blog.json");
+        blogs.done(function(data) {
+            console.log(data);
+            for(let i = 0; i < data.length; i++) {
+                $("#posts").append(`<div class="card" style="width: 60%; margin-bottom: 3rem;"><div class="card-body"><h3 class="card-title">${data[i].title}</h3><h6 class="card-subtitle mb-2 text-muted">${data[i].date}</h6><p class="card-text">${data[i].content}</p><h6 class="card-subtitle mb-2 text-muted">Categories: ${data[i].categories}</h6></div></div>`);
+            }
+        }).fail(function(jqXhr, status, error) {
+            alert(`${error.toUpperCase()}\n${status.toUpperCase()}\nThere was a unexpected problem.\nPlease refresh your page.`);
+        });
+    </script>
+</body>
+
+</html>
