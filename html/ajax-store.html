@@ -56,6 +56,20 @@
         "use strict";
         // TODO: Create an AJAX GET request for the file under data/inventory.json
 
+        function createHTML(data) {
+            let html = ``;
+            // For loop to loop through "inventory.json" and display contents inside "#insertProducts".
+            for(let i = 0; i < data.length; i++) {
+                html += `<tr>
+                            <td>${data[i].title}</td>
+                            <td>${data[i].quantity}</td>
+                            <td>${data[i].price}</td>
+                            <td>${data[i].categories}</td>
+                         </tr>`
+            }
+            return html;
+        }
+
         let inventory = $.get("../data/inventory.json"); // Storing request in "inventory" variable.
 
         // TODO: Take the data from inventory.json and append it to the products table
@@ -64,11 +78,8 @@
         //       HINT: You will want to target #insertProducts for your new HTML elements
 
         inventory.done(function(data) {
-            console.log(data);
-            // Using for loop to loop through json and displaying values using template literals.
-            for(let i = 0; i < data.length; i++) {
-                $("#insertProducts").append(`<tr><td>${data[i].title}</td><td>${data[i].quantity}</td><td>${data[i].price}</td><td>${data[i].categories}</td></tr>`);
-            }
+            let products = createHTML(data);
+            $("#insertProducts").html(products);
         }).fail(function(jqXhr, status, error) {
             alert(`${status.toUpperCase()}\nPlease try again.`);
         });
