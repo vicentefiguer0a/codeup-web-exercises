@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Codeup Mapbox Exercise</title>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.css' rel='stylesheet' />
+    <style>
+        #map{
+            width: 100%;
+            height: 800px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>My Mapbox API</h1>
+    </header>
+
+    <main>
+        <div id="map"></div>
+    </main>
+
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.js'></script>
+    <script src="../js/keys.js"></script>
+    <script src="../js/mapbox-geocoder-utils.js"></script>
+    <script>
+        // Mapbox JS
+        "use strict";
+
+        mapboxgl.accessToken = MAPBOX_TOKEN;
+
+        // Function places marker and popup on map.
+        function placeMarkerAndPopup(restaurant, token, map) {
+            geocode(restaurant.address, token).then(function(coordinates) {
+                var popup = new mapboxgl.Popup().setHTML(restaurant.popupHTML);
+                var marker = new mapboxgl.Marker().setLngLat(coordinates).addTo(map).setPopup(popup);
+            });
+        }
+
+        let restaurants = [
+            {
+                address: "2612 Commerce St, Dallas, TX 75226",
+                popupHTML: "<h3>Cane Rossos</h3>"
+            },
+            {
+                address: "1623 Main St #102, Dallas, TX 75201",
+                popupHTML: "<h3>Sapa House</h3>"
+            },
+            {
+                address: "4140 Lemmon Ave Suite 176, Dallas, TX 75219",
+                popupHTML: "<h3>Buffalo Wild Wings</h3>"
+            }
+        ]
+
+        // Creating map.
+        let map = new mapboxgl.Map( {
+            container: "map",
+            style: "mapbox://styles/mapbox/streets-v11",
+            zoom: 17,
+            center: [-96.78561, 32.782513]
+        });
+
+        // Loops through restaurants array and creates marker and popup for each restaurant using the "placeMarkerAndPopup" function.
+        restaurants.forEach(function(restaurant) {
+           placeMarkerAndPopup(restaurant, MAPBOX_TOKEN, map);
+        });
+
+    </script>
+</body>
+</html>
