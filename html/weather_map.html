@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Weather Map</title>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.css' rel='stylesheet' />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <style>
+        #forecast {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h3>Weather App</h3>
+        <h3 id="current-city"></h3>
+    </header>
+
+    <div id="forecast"></div>
+
+    <div id="map"></div>
+
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.js'></script>
+    <script src="../js/keys.js"></script>
+    <script>
+
+        "use strict";
+
+        function createHTML(data) {
+            let html = ``;
+            for(let i = 0; i < 5; i++) {
+                // display date, weather, description, humidity, wind, pressure
+                html += `
+                <div class="card shadow">
+                    <h6 class="card-header">${data.list[i].dt_txt}</h6>
+                    <h6>${data.list[i].main.temp_min}°F / ${data.list[i].main.temp_max}°F</h6>
+                    <hr style="width: 80%;align-self: center;" />
+                    <h6>Description: ${data.list[i].weather[0].description}</h6>
+                    <h6>Humidity: ${data.list[i].main.humidity}</h6>
+                    <h6>Wind: ${data.list[i].wind.speed}</h6>
+                    <h6>Pressure: ${data.list[i].main.pressure}</h6>
+                </div>
+            `
+            }
+            return html;
+        }
+
+        let forecast = $.get("https://api.openweathermap.org/data/2.5/forecast", {
+            APPID: OPEN_WEATHER_APPID,
+            lat: 32.7767,
+            lon: -96.7970,
+            units: "imperial"
+        });
+
+        forecast.done(function(data) {
+            console.log(data);
+            let forecast = createHTML(data);
+            $("#forecast").html(forecast);
+        }).fail(function(jqXhr, status, error) {
+            alert(status);
+        });
+
+    </script>
+</body>
+</html>
