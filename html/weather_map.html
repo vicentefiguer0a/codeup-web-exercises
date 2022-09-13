@@ -1,32 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <title>Weather Map</title>
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.css' rel='stylesheet' />
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css" type="text/css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
     <style>
+        body {
+            font-family: 'Oswald', sans-serif;
+        }
+
+        #search-container {
+            height: 100px;
+        }
+
+        main {
+            margin: 10px;
+        }
+
         #forecast {
             display: flex;
             flex-direction: row;
-            justify-content: space-evenly;
+            justify-content: space-between;
+        }
+
+        .forecast-txt {
+            font-size: 14px;
+        }
+
+        #map {
+            width: 100%;
+            height: 330px;
+            margin-top: 1em;
         }
     </style>
 </head>
+
 <body>
-    <header>
-        <h3>Weather App</h3>
-        <h3 id="current-city"></h3>
-    </header>
+    <nav class="navbar bg-primary">
+        <div class="container-fluid">
+            <h1 class="navbar-brand mb-0 pt-0 text-white fs-3"><b>Weather App</b></h1>
+            <h1 id="current-city" class="mb-0 pt-0 fs-6 text-white"></h1>
+        </div>
+    </nav>
 
-    <div id="forecast"></div>
-
-    <div id="map"></div>
+    <main>
+        <div id="geocoder" class="geocoder mt-3 mb-3 w-75"></div>
+        <div id="forecast"></div>
+        <div id="map"></div>
+    </main>
 
     <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
-    <script src='https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.js'></script>
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.js"></script>
+    <script src="../js/mapbox-geocoder-utils.js"></script>
     <script src="../js/keys.js"></script>
     <script>
 
@@ -34,38 +68,103 @@
 
         function createHTML(data) {
             let html = ``;
-            for(let i = 0; i < 5; i++) {
-                // display date, weather, description, humidity, wind, pressure
+            // For loop to create 5 cards containing necessary information.
+            for(let i = 0; i < 33; i += 8) {
+                // Display day of week.
+                let date = new Date (data.list[i].dt * 1000).toLocaleString('default', {weekday: 'long'});
+                // Display date, weather, description, humidity, wind, pressure on card.
                 html += `
-                <div class="card shadow">
-                    <h6 class="card-header">${data.list[i].dt_txt}</h6>
-                    <h6>${data.list[i].main.temp_min}°F / ${data.list[i].main.temp_max}°F</h6>
-                    <hr style="width: 80%;align-self: center;" />
-                    <h6>Description: ${data.list[i].weather[0].description}</h6>
-                    <h6>Humidity: ${data.list[i].main.humidity}</h6>
-                    <h6>Wind: ${data.list[i].wind.speed}</h6>
-                    <h6>Pressure: ${data.list[i].main.pressure}</h6>
-                </div>
-            `
+                        <div class="card" style="width: 19%; height: 300px;">
+                            <h6 class="card-header d-flex justify-content-center">${date}</h6>
+                            <h6 class="d-flex justify-content-center mt-3 fw-bold">${data.list[i].main.temp_min}°F / ${data.list[i].main.temp_max}°F</h6>
+                            <hr style="width: 85%; align-self: center; opacity: .15;" />
+                            <p class="forecast-txt ms-4">Description: <b>${data.list[i].weather[0].description}</b></p>
+                            <p class="forecast-txt ms-4">Humidity: <b>${data.list[i].main.humidity}</b></p>
+                            <hr style="width: 85%; align-self: center; opacity: .15; margin-top: 3px;" />
+                            <p class="forecast-txt ms-4">Wind: <b>${data.list[i].wind.speed}</b></p>
+                            <hr style="width: 85%; align-self: center; opacity: .15; margin-top: 3px;" />
+                            <p class="forecast-txt ms-4">Pressure: <b>${data.list[i].main.pressure}</b></p>
+                        </div>
+                    `
             }
             return html;
         }
 
-        let forecast = $.get("https://api.openweathermap.org/data/2.5/forecast", {
-            APPID: OPEN_WEATHER_APPID,
-            lat: 32.7767,
-            lon: -96.7970,
-            units: "imperial"
+        function getRequest(lat, lon) {
+            // Storing GET request in variable.
+            let forecast = $.get("https://api.openweathermap.org/data/2.5/forecast", {
+                APPID: OPEN_WEATHER_APPID,
+                lat: lat,
+                lon: lon,
+                units: "imperial",
+            });
+            // Once we receive 5-day forecast from openweather api, we display forecast on cards.
+            forecast.done(function(data) {
+                let forecastCard = createHTML(data);
+                $("#forecast").html(forecastCard);
+                $("#current-city").html(`Current city: ${data.city.name}`);
+            }).fail(function(jqXhr, status, error) {
+                alert(status.toUpperCase());
+            });
+        }
+
+        // Initial request to display forecast of Dallas, TX.
+        getRequest(32.7767, -96.7970);
+
+        // Access token for mapbox.
+        mapboxgl.accessToken = MAPBOX_TOKEN;
+
+        // Initializing map.
+        const map = new mapboxgl.Map({
+            container: "map",
+            style: "mapbox://styles/mapbox/streets-v11",
+            zoom: 11,
+            center: [-96.7970, 32.7767]
         });
 
-        forecast.done(function(data) {
-            console.log(data);
-            let forecast = createHTML(data);
-            $("#forecast").html(forecast);
-        }).fail(function(jqXhr, status, error) {
-            alert(status);
+        // Creating marker.
+        let marker = new mapboxgl.Marker({draggable: true});
+
+        // When user clicks on map, marker is placed and map is centered on current marker.
+        map.on("click", function(event) {
+            let coordinates = event.lngLat;
+            marker.setLngLat(coordinates).addTo(map);
+            map.flyTo({
+                center: [coordinates.lng, coordinates.lat],
+                zoom: 15,
+                essential: true
+            });
+            // Updating forecast cards with location selected on map.
+            getRequest(coordinates.lat, coordinates.lng);
         });
 
+        // map.on(marker.dragend, function(event) {
+        //     let coordinates = event.lngLat;
+        //     marker.setLngLat(coordinates).addTo(map);
+        //     map.flyTo({
+        //         center: [coordinates.lng, coordinates.lat],
+        //         zoom: 15,
+        //         essential: true
+        //     });
+        //     // Updating forecast cards with location selected on map.
+        //     getRequest(coordinates.lat, coordinates.lng);
+        // });
+
+        const geocoder = new MapboxGeocoder({
+            accessToken: MAPBOX_TOKEN,
+            mapboxgl: mapboxgl
+        });
+
+        $("#geocoder").append(geocoder.onAdd(map));
+        //TODO
+        $("#geocoder").on('keyup', function (e) {
+            let input = $("#geocoder").val();
+            console.log(input);
+            // if (e === "Enter") {
+            //     // getRequest()
+            // }
+        })
     </script>
 </body>
+
 </html>
