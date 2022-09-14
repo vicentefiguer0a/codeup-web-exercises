@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <title>Weather Map</title>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.css' rel='stylesheet' />
     <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css" type="text/css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
@@ -14,10 +15,6 @@
     <style>
         body {
             font-family: 'Oswald', sans-serif;
-        }
-
-        #search-container {
-            height: 100px;
         }
 
         main {
@@ -31,13 +28,25 @@
         }
 
         .forecast-txt {
+            margin: 4px 0;
             font-size: 14px;
+        }
+
+        #weather-icon {
+            height: 50px;
+            width: 50px;
+            margin-left: 100px;
+        }
+
+        hr {
+            margin: 5px;
         }
 
         #map {
             width: 100%;
-            height: 330px;
+            height: 400px;
             margin-top: 1em;
+            border-radius: 8px;
         }
     </style>
 </head>
@@ -70,13 +79,16 @@
             let html = ``;
             // For loop to create 5 cards containing necessary information.
             for(let i = 0; i < 33; i += 8) {
-                // Display day of week.
+                // Getting day of week and storing value in "date" variable.
                 let date = new Date (data.list[i].dt * 1000).toLocaleString('default', {weekday: 'long'});
+
                 // Display date, weather, description, humidity, wind, pressure on card.
                 html += `
                         <div class="card" style="width: 19%; height: 300px;">
                             <h6 class="card-header d-flex justify-content-center">${date}</h6>
-                            <h6 class="d-flex justify-content-center mt-3 fw-bold">${data.list[i].main.temp_min}°F / ${data.list[i].main.temp_max}°F</h6>
+                            <span class="d-flex justify-content-center mt-2 text-muted fs-6">Low / High</span>
+                            <h6 class="d-flex justify-content-center fw-bold">${data.list[i].main.temp_min}°F / ${data.list[i].main.temp_max}°F</h6>
+                            <img class="d-flex justify-content-center" id="weather-icon" src="https://openweathermap.org/img/w/${data.list[i].weather[0].icon}.png" alt="Weather icon">
                             <hr style="width: 85%; align-self: center; opacity: .15;" />
                             <p class="forecast-txt ms-4">Description: <b>${data.list[i].weather[0].description}</b></p>
                             <p class="forecast-txt ms-4">Humidity: <b>${data.list[i].main.humidity}</b></p>
@@ -100,9 +112,10 @@
             });
             // Once we receive 5-day forecast from openweather api, we display forecast on cards.
             forecast.done(function(data) {
+                console.log(data);
                 let forecastCard = createHTML(data);
                 $("#forecast").html(forecastCard);
-                $("#current-city").html(`Current city: ${data.city.name}`);
+                $("#current-city").html(`5 Day Weather - ${data.city.name}, ${data.city.country}`);
             }).fail(function(jqXhr, status, error) {
                 alert(status.toUpperCase());
             });
@@ -122,7 +135,7 @@
             center: [-96.7970, 32.7767]
         });
 
-        // Creating marker.
+        // Initializing marker.
         let marker = new mapboxgl.Marker({draggable: true});
 
         // When user clicks on map, marker is placed and map is centered on current marker.
@@ -138,32 +151,34 @@
             getRequest(coordinates.lat, coordinates.lng);
         });
 
-        // map.on(marker.dragend, function(event) {
-        //     let coordinates = event.lngLat;
-        //     marker.setLngLat(coordinates).addTo(map);
-        //     map.flyTo({
-        //         center: [coordinates.lng, coordinates.lat],
-        //         zoom: 15,
-        //         essential: true
-        //     });
-        //     // Updating forecast cards with location selected on map.
-        //     getRequest(coordinates.lat, coordinates.lng);
-        // });
+        // Updates forecast and "Current city:" to location where marker was dragged.
+        marker.on("dragend", function() {
+            let dragendCoord = marker.getLngLat();
+            map.flyTo({
+                center: [dragendCoord.lng, dragendCoord.lat],
+                zoom: 15,
+                essential: true
+            });
+            getRequest(dragendCoord.lat, dragendCoord.lng);
+        });
 
+        // Initializing geocoder.
         const geocoder = new MapboxGeocoder({
             accessToken: MAPBOX_TOKEN,
             mapboxgl: mapboxgl
         });
 
+        // Adding geocoder to document.
         $("#geocoder").append(geocoder.onAdd(map));
-        //TODO
-        $("#geocoder").on('keyup', function (e) {
-            let input = $("#geocoder").val();
-            console.log(input);
-            // if (e === "Enter") {
-            //     // getRequest()
-            // }
-        })
+
+        // Sends get request when user searches for location and hits enter.
+        $("#geocoder").on("keyup", function(e) {
+            if (e.key === "Enter") {
+                let geoLat = geocoder.mapMarker._lngLat.lat;
+                let geoLon = geocoder.mapMarker._lngLat.lng;
+                getRequest(geoLat, geoLon);
+            }
+        });
     </script>
 </body>
 
