@@ -55,8 +55,8 @@
 <body>
     <nav class="navbar bg-primary">
         <div class="container-fluid">
-            <h1 class="navbar-brand mb-0 pt-0 text-white fs-3"><b>Weather Map</b></h1>
-            <h1 id="current-city" class="mb-0 pt-0 fs-6 text-white"></h1>
+            <h1 class="navbar-brand mb-0 pt-0 text-white fs-3"><b>Weather Map</b><br /><span id="time-stamp" class="fs-6 ms-1 opacity-50"></span></h1>
+            <h1 id="current-city" class="mb-0 pt-0 fs-5 text-white"></h1>
         </div>
     </nav>
 
@@ -89,7 +89,7 @@
 
                 // Display date, weather, description, humidity, wind, pressure on card.
                 html += `
-                        <div class="card" style="width: 19%; height: 300px;">
+                        <div class="card shadow" style="width: 19%; height: 300px;">
                             <h6 class="card-header d-flex justify-content-center">${date}</h6>
                             <span class="d-flex justify-content-center mt-2 text-muted fs-6">Low / High</span>
                             <h6 class="d-flex justify-content-center fw-bold">${data.list[i].main.temp_min}°F / ${data.list[i].main.temp_max}°F</h6>
@@ -118,11 +118,19 @@
             // Once we receive 5-day forecast from openweather api, we display forecast on cards.
             forecast.done(function(data) {
                 console.log(data);
+                let today = new Date();
+                let time = today.getHours() + ":" + today.getMinutes();
+                if (today.getHours() > "12") {
+                    time = time + " PM";
+                } else {
+                    time = time + " AM";
+                }
                 let forecastCard = createHTML(data);
                 $("#forecast").html(forecastCard);
                 $("#current-city").html(`5 Day Weather - ${data.city.name}, ${data.city.country}`);
+                $("#time-stamp").html(`Forecast updated as of ${time}`);
             }).fail(function(jqXhr, status, error) {
-                alert(status.toUpperCase());
+                alert(`${status.toUpperCase()}`);
             });
         }
 
