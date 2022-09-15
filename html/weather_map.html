@@ -45,7 +45,7 @@
 
         #map {
             width: 100%;
-            height: 400px;
+            height: 350px;
             margin-top: 1em;
             border-radius: 8px;
         }
@@ -53,28 +53,28 @@
 </head>
 
 <body>
+    <!-----------------NAVBAR----------------->
     <nav class="navbar bg-primary">
         <div class="container-fluid">
             <h1 class="navbar-brand mb-0 pt-0 text-white fs-3"><b>Weather Map</b><br /><span id="time-stamp" class="fs-6 ms-1 opacity-50"></span></h1>
             <h1 id="current-city" class="mb-0 pt-0 fs-5 text-white"></h1>
         </div>
     </nav>
-
+    <!-----------------FORECAST AND MAP----------------->
     <main>
         <div id="geocoder" class="geocoder mt-3 mb-3 w-75"></div>
         <div id="forecast"></div>
         <div id="map"></div>
     </main>
-
+    <!-----------------CSS ANIMATED BACKGROUND----------------->
     <div class="bg"></div>
     <div class="bg bg2"></div>
     <div class="bg bg3"></div>
-
+    <!-----------------SCRIPT TAGS----------------->
     <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
     <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.js"></script>
-    <script src="../js/mapbox-geocoder-utils.js"></script>
     <script src="../js/keys.js"></script>
     <script>
 
@@ -86,7 +86,6 @@
             for(let i = 0; i < 33; i += 8) {
                 // Getting day of week and storing value in "date" variable.
                 let date = new Date (data.list[i].dt * 1000).toLocaleString('default', {weekday: 'long'});
-
                 // Display date, weather, description, humidity, wind, pressure on card.
                 html += `
                         <div class="card shadow" style="width: 19%; height: 300px;">
