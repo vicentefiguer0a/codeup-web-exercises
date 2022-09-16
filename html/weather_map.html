@@ -147,6 +147,9 @@
             center: [-96.7970, 32.7767]
         });
 
+        // Adds navigation control to map.
+        map.addControl(new mapboxgl.NavigationControl());
+
         // Initializing marker.
         let marker = new mapboxgl.Marker({draggable: true});
 
