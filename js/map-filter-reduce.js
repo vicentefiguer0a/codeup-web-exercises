@@ -59,6 +59,4 @@ const lngstEmail = users.reduce((a, b) => {
 const instructNames = users.map((user) => {
     return user.name;
 }).join(", ");
-
-const namesString = `Your instructors are : ${instructNames}`;
-console.log(namesString);
+const namesString = `Your instructors are : ${instructNames}.`;
