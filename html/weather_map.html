@@ -13,51 +13,16 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="../css/weathermap.css" />
-    <style>
-        body {
-            font-family: 'Oswald', sans-serif;
-        }
-
-        main {
-            margin: 10px;
-        }
-
-        #forecast {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-        }
-
-        .forecast-txt {
-            margin: 4px 0;
-            font-size: 14px;
-        }
-
-        #weather-icon {
-            height: 50px;
-            width: 50px;
-            margin-left: 100px;
-        }
-
-        hr {
-            margin: 5px;
-        }
-
-        #map {
-            width: 100%;
-            height: 350px;
-            margin-top: 1em;
-            border-radius: 8px;
-        }
-    </style>
 </head>
 
 <body>
     <!-----------------NAVBAR----------------->
-    <nav class="navbar bg-primary">
+    <nav class="navbar">
         <div class="container-fluid">
-            <h1 class="navbar-brand mb-0 pt-0 text-white fs-3"><b>Weather Map</b><br /><span id="time-stamp" class="fs-6 ms-1 opacity-50"></span></h1>
-            <h1 id="current-city" class="mb-0 pt-0 fs-5 text-white"></h1>
+            <h1 class="navbar-brand mb-0 pt-0 fs-3" id="app-title"><b>Weather Map</b><br /><span id="time-stamp" class="fs-6 ms-1 opacity-50"></span></h1>
+            <h1 id="current-city" class="mb-0 pt-0 fs-5"></h1>
+            <input type="checkbox" id="darkmode-toggle" />
+            <label for="darkmode-toggle"></label>
         </div>
     </nav>
     <!-----------------FORECAST AND MAP----------------->
@@ -67,9 +32,9 @@
         <div id="map"></div>
     </main>
     <!-----------------CSS ANIMATED BACKGROUND----------------->
-    <div class="bg"></div>
-    <div class="bg bg2"></div>
-    <div class="bg bg3"></div>
+<!--    <div class="bg"></div>-->
+<!--    <div class="bg bg2"></div>-->
+<!--    <div class="bg bg3"></div>-->
     <!-----------------SCRIPT TAGS----------------->
     <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
@@ -89,9 +54,9 @@
                 // Display date, weather, description, humidity, wind, pressure on card.
                 html += `
                         <div class="card shadow" style="width: 19%; height: 300px;">
-                            <h6 class="card-header d-flex justify-content-center">${date}</h6>
-                            <span class="d-flex justify-content-center mt-2 text-muted fs-6">Low / High</span>
-                            <h6 class="d-flex justify-content-center fw-bold">${data.list[i].main.temp_min}°F / ${data.list[i].main.temp_max}°F</h6>
+                            <h6 class="date card-header d-flex justify-content-center">${date}</h6>
+                            <span class="low-high d-flex justify-content-center mt-2 fs-6">Low / High</span>
+                            <h6 class="temp d-flex justify-content-center fw-bold">${data.list[i].main.temp_min}°F / ${data.list[i].main.temp_max}°F</h6>
                             <img class="d-flex justify-content-center" id="weather-icon" src="https://openweathermap.org/img/w/${data.list[i].weather[0].icon}.png" alt="Weather icon">
                             <hr style="width: 85%; align-self: center; opacity: .15;" />
                             <p class="forecast-txt ms-4">Description: <b>${data.list[i].weather[0].description}</b></p>
@@ -192,6 +157,70 @@
                 let geoLat = geocoder.mapMarker._lngLat.lat;
                 let geoLon = geocoder.mapMarker._lngLat.lng;
                 getRequest(geoLat, geoLon);
+            }
+        });
+
+        // Dark Mode
+        let drkModeBtn = document.getElementById("darkmode-toggle");
+        let navbar = document.getElementsByClassName("navbar");
+        let card = document.getElementsByClassName("card");
+        let forecastText = document.getElementsByClassName("forecast-txt");
+        let currentCity = document.getElementById("current-city");
+        let appTitle = document.getElementById("app-title");
+        let cardDate = document.getElementsByClassName("date");
+        let cardTemp = document.getElementsByClassName("temp");
+        let lowHigh = document.getElementsByClassName("low-high");
+        // Toggle dark mode on click.
+        drkModeBtn.addEventListener('click', function(event) {
+            if (document.body.style.backgroundColor === "dimgrey") {
+                document.body.style.backgroundColor = "white";
+                document.body.style.transition = "0.3s";
+                navbar[0].style.backgroundColor = "#0275d8"
+                appTitle.style.color = "white";
+                currentCity.style.color = "white";
+                map.setStyle("mapbox://styles/mapbox/streets-v11");
+
+                // Using for loop to loop through all elements with same class name.
+                for(let i = 0; i < card.length; i++) {
+                    card[i].style.backgroundColor = "white";
+                }
+                for(let i = 0; i< forecastText.length; i++) {
+                    forecastText[i].style.color = "black";
+                }
+                for(let i = 0; i< cardDate.length; i++) {
+                    cardDate[i].style.color = "black";
+                }
+                for(let i = 0; i< cardTemp.length; i++) {
+                    cardTemp[i].style.color = "black";
+                }
+                for(let i = 0; i< lowHigh.length; i++) {
+                    lowHigh[i].style.color = "#414141";
+                    lowHigh[i].style.opacity = "100%";
+                }
+            } else {
+                document.body.style.backgroundColor = "dimgrey";
+                document.body.style.transition = "0.3s";
+                navbar[0].style.backgroundColor = "#343434";
+                appTitle.style.color = "white";
+                currentCity.style.color = "white";
+                map.setStyle("mapbox://styles/mapbox/dark-v10");
+                // Using for loop to loop through all elements with same class name.
+                for(let i = 0; i < card.length; i++) {
+                    card[i].style.backgroundColor = "#343434";
+                }
+                for(let i = 0; i< forecastText.length; i++) {
+                    forecastText[i].style.color = "white";
+                }
+                for(let i = 0; i< cardDate.length; i++) {
+                    cardDate[i].style.color = "white";
+                }
+                for(let i = 0; i< cardTemp.length; i++) {
+                    cardTemp[i].style.color = "white";
+                }
+                for(let i = 0; i< lowHigh.length; i++) {
+                    lowHigh[i].style.color = "white";
+                    lowHigh[i].style.opacity = "60%";
+                }
             }
         });
     </script>
