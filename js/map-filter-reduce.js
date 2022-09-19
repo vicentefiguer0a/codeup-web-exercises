@@ -48,15 +48,19 @@ const userEmails = users.map(user => user.email);
 const sumOfExp = users.reduce((totalExp, user) => {
     return totalExp + user.yearsOfExperience;
 }, 0);
-let average = sumOfExp / users.length;
+let yearsAverage = sumOfExp / users.length;
 
 // Use .reduce to get the longest email from the list of users.
-const lngstEmail = users.reduce((a, b) => {
-    return a.email.length > b.email.length ? a.email : b;
-});
+const longestEmail = users.reduce((email, user) => {
+    if (user.email.length > email.length) {
+        email = user.email;
+    }
+    return email;
+}, "");
 
 // Use .reduce to get the list of user's names in a single string. Example: Your instructors are: ryan, luis, zach, fernando, justin.
-const instructNames = users.map((user) => {
-    return user.name;
-}).join(", ");
-const namesString = `Your instructors are : ${instructNames}.`;
+const names = users.reduce((name, user) => {
+    name += (user.name) + ", ";
+    return name;
+}, "");
+console.log(`Your instructors are: ${names}`);
