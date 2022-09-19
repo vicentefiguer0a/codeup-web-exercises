@@ -64,3 +64,12 @@ const names = users.reduce((name, user) => {
     return name;
 }, "");
 console.log(`Your instructors are: ${names}`);
+
+//
+const instructorNames = users.reduce((names, user, index) => {
+    if (index !== users.length - 1) {
+        return `${names}${user.name}, `;
+    } else {
+        return `${names}and ${user.name}.`;
+    }
+}, "Your instructors are: ");
