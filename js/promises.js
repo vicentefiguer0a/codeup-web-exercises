@@ -6,18 +6,18 @@ const githubReq = (username) => {
     fetch(`https://api.github.com/users/${username}/events/public`, {
         auth: GITHUB_TOKEN,
         username: username
-    }).then(data => data.json())
-        .then((user) => console.log(`Date of last commit: ${user[0].created_at}`))
+    }).then(resp => resp.json())
+        .then((data) => {
+            // Filter through array to get "PushEvent" only.
+            const commits = data.filter(event => event.type === "PushEvent");
+            // Logging users latest commit.
+            console.log(`${username} had their last commit on ${commits[0].created_at}`);
+        })
         .catch(error => console.log(error));
 }
 
+// Testing "githubReq" function with my username.
 githubReq("vicentefiguer0a");
-
-// const wait = (num) => {
-//     setTimeout(() => {
-//         console.log(`You'll see this after ${num} seconds`);
-//     }, num);
-// }
 
 const wait = (num) => {
     return new Promise((resolve, reject) => {
@@ -33,7 +33,6 @@ const wait = (num) => {
 }
 
 const request = wait(5000);
-console.log(request);
 
 request.then(message => console.log(message))
     .catch(message => console.log(message));
