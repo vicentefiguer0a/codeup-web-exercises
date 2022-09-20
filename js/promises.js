@@ -22,8 +22,9 @@ githubReq("vicentefiguer0a");
 const wait = (num) => {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
+            let seconds = String(num)[0];
             if (num) {
-                resolve(`You'll see this after...`);
+                resolve(`You'll see this after... ${seconds} seconds`);
             } else {
                 reject('Network Connection Error!');
             }
@@ -31,8 +32,8 @@ const wait = (num) => {
     });
 }
 
-const request = wait(3000);
+const request = wait(5000);
 console.log(request);
 
-request.then(message => console.log(message, `3 seconds`))
+request.then(message => console.log(message))
     .catch(message => console.log(message));
